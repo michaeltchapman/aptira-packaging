@@ -47,7 +47,7 @@ fpm -s dir \
     -n ruby \
     -v $VERSION \
     -a native \
-    -p ruby$VERSION-1.el6.`uname -m`.rpm \
+    -p ruby-$VERSION-1.el6.`uname -m`.rpm \
     --provides ruby-irb \
     --provides ruby \
     --provides ruby-rdoc \
@@ -65,7 +65,7 @@ fpm -s dir \
     -t rpm \
     -n ruby-devel \
     -v $VERSION \
-    -p ruby-devel$VERSION.rpm \
+    -p ruby-devel-$VERSION-1.el6.`uname -m`.rpm \
     --provides ruby-devel \
     --replaces ruby-devel \
     -a 'x86_64' \
