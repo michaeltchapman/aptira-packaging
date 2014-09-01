@@ -10,6 +10,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "centos" do |centos|
     centos.vm.box = "centos64"
     centos.vm.network "private_network", :ip => "192.168.242.200"
+    centos.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+    end
     centos.vm.provision :shell do |shell|
       shell.inline = 'bash -x /vagrant/gemcache_build.sh -n fpm -r https://github.com/michaeltchapman/fpm; ' +
                      'gem install --no-ri --no-rdoc --local --force gemcache/fpm/*; ' +
