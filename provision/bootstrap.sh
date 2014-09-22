@@ -49,7 +49,7 @@ fi
 if [ "${ruby_version}" != "${desired_ruby}" ] ; then
   echo '[elruby-replace-200]' > /etc/yum.repos.d/elruby.repo
   echo "name=\"Elruby ruby replacement 2.0.0\"" >> /etc/yum.repos.d/elruby.repo
-  echo "baseurl=\"http://elruby.websages.com/replacement/2.0.0/\$releasever/\$basearch/\"" >> /etc/yum.repos.d/elruby.repo
+  echo "baseurl=\"http://stacktira.aptira.com/repo/elruby/\"" >> /etc/yum.repos.d/elruby.repo
   echo 'enabled=1' >> /etc/yum.repos.d/elruby.repo
   echo 'gpgcheck=0' >> /etc/yum.repos.d/elruby.repo
  
