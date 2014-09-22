@@ -21,6 +21,11 @@ done
 
 rsync -r $PDIR/* serf-$SERF_VERSION
 
+cat > pre.sh<<EOF
+/usr/bin/getent group serf || /usr/sbin/groupadd -r serf
+/usr/bin/getent passwd serf || /usr/sbin/useradd -r -d / -s /sbin/nologin serf
+EOF
+
 fpm -t rpm -s dir -C serf-${SERF_VERSION} -p ./serf-${SERF_VERSION} -n serf -a x86_64 --config-files etc/serf/conf.d --rpm-user serf --rpm-group serf --before-install pre.sh -f -v ${SERF_VERSION} usr etc
 
 cp serf-${SERF_VERSION}/*.rpm /vagrant/rpms
