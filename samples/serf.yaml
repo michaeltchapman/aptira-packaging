@@ -1,0 +1,11 @@
+pre:
+  group: serf # /usr/bin/getent group serf || /usr/sbin/groupadd -r serf
+  user: serf # /usr/bin/getent passwd serf || /usr/sbin/useradd -r -d /usr/bin/serf -s /sbin/nologin serf
+
+pleaserun:
+  user: serf
+  group: serf
+  name: serf
+  command: /usr/bin/serf agent --syslog --config-dir /etc/serf/conf.d
+
+fpm:
