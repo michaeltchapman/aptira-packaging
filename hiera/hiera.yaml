@@ -1,0 +1,9 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: /vagrant/hiera/data
+:hierarchy:
+  - "%{hostname}"
+  - user
+  - common

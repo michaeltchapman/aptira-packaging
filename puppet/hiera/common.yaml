@@ -1,0 +1,45 @@
+yum_base_mirror: 'http://centos.mirror.uber.com.au' 
+proxy_host: 192.168.0.18
+proxy_port: 8000
+
+openstack_extras::repo::redhat::redhat::repo_defaults:
+  'proxy': "http://%{hiera('proxy_host')}:%{hiera('proxy_port')}"
+
+openstack_extras::repo::redhat::redhat::gpgkey_hash:
+  '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6':
+    'source': 'puppet:///modules/openstack_extras/RPM-GPG-KEY-EPEL-6'
+
+# Remove repos that are not managed by puppet
+openstack_extras::repo::redhat::redhat::purge_unmanaged: true
+
+# Ensure all packages require all yumrepos
+openstack_extras::repo::redhat::redhat::package_require: true
+
+# Manage epel ourselves
+openstack_extras::repo::redhat::redhat::manage_epel: false
+openstack_extras::repo::redhat::redhat::manage_rdo: false
+
+openstack_extras::repo::redhat::redhat::repo_hash:
+  'CentOS-Base':
+    'descr': 'CentOS-$releasever - Base'
+    'baseurl': "%{hiera('yum_base_mirror')}/$releasever/os/$basearch/"
+  'CentOS-Updates':
+    'descr': 'CentOS-$releasever - Updates'
+    'baseurl': "%{hiera('yum_base_mirror')}/$releasever/updates/$basearch/"
+  'CentOS-Extras':
+    'descr': 'CentOS-$releasever - Extras'
+    'baseurl': "%{hiera('yum_base_mirror')}/$releasever/extras/$basearch/"
+  'epel':
+    'descr': 'Extra Packages for Enterprise Linux 6 - $basearch'
+    'baseurl': "%{hiera('yum_epel_mirror')}/$releasever/$basearch/"
+    'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
+    'failovermethod': 'priority'
+  'aptira':
+    'descr': 'Aptira Yum Repo'
+    'baseurl': 'http://stacktira.aptira.com/repo/yum'
+    'gpgcheck' : 0
+    'priority' : 90
+  'elruby':
+    'descr': 'elruby replacement 2.0.0'
+    'baseurl': 'http://elruby.websages.com/replacement/2.0.0/$releasever/$basearch/'
+    'gpgcheck' : 0
