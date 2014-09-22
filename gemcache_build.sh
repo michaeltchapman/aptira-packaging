@@ -34,11 +34,12 @@ hash git 2>/dev/null || {
 cwd=`pwd`
 mkdir -p $cwd/tmp
 mkdir -p $cwd/gemcache/$name
-export GEM_HOME=$cwd/tmp/$name
+export GEM_HOME=$cwd/tmp/$name/vendor
 
 if [ "$repo" != 'false' ]; then
   rm -rf tmp/$name
   git clone $repo tmp/$name
+  mkdir -p $cwd/tmp/$name/vendor
 
   hash bundle 2>/dev/null || {
     gem install bundler --no-ri --no-rdoc
@@ -49,12 +50,12 @@ if [ "$repo" != 'false' ]; then
   cp `gem build *.gemspec | grep File | sed 's/^[\ ]*File://g'` ../../gemcache/$name
 
   # Get deps from gem repo
-  $cwd/tmp/$name/bin/bundle install
-  cp cache/* ../../gemcache/$name
+  $cwd/tmp/$name/vendor/bin/bundle install
+  cp vendor/cache/* ../../gemcache/$name
 else
-  mkdir -p tmp/$name
+  mkdir -p tmp/$name/vendor
   gem install $name --no-ri --no-rdoc
-  cp tmp/$name/cache/*.gem gemcache/$name
+  cp tmp/$name/vendor/cache/*.gem gemcache/$name
 fi
 
 # Clean
