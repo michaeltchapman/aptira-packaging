@@ -21,7 +21,7 @@ if ! $nameflag ; then
   exit 0
 fi
 
-for i in ruby ruby-devel; do
+for i in gcc ruby ruby-devel; do
   if ! yum info $i | grep -q installed ; then
     yum install -y $i
   fi
