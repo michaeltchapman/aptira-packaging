@@ -26,9 +26,9 @@ Vagrant.configure("2") do |config|
     # Install build tools
     centos.vm.provision :shell do |shell|
       shell.inline = 'bash -x /vagrant/build/gemcache_build.sh -n fpm -r https://github.com/michaeltchapman/fpm; ' +
-                     'gem install --no-ri --no-rdoc --local --force gemcache/fpm/*;' +
+                     'gem install --bindir=/usr/bin --no-ri --no-rdoc --local --force gemcache/fpm/*;' +
                      'bash -x /vagrant/build/gemcache_build.sh -n pleaserun -r https://github.com/michaeltchapman/pleaserun; ' +
-                     'gem install --no-ri --no-rdoc --local --force gemcache/pleaserun/*;'
+                     'gem install --bindir=/usr/bin --no-ri --no-rdoc --local --force gemcache/pleaserun/*;'
                      #'bash -x /vagrant/ruby_build.sh; ' +
                      #'bash -x /vagrant/kibana_build.sh; ' +
                      #'mkdir -p /vagrant/rpms; cp *.rpm /vagrant/rpms; '
