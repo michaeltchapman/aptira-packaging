@@ -4,6 +4,7 @@ network=eth1
 domain='domain.name'
 desired_ruby=2.0.0
 desired_puppet=3.7.2
+mirror='http://centos.mirror.uber.com.au'
 proxy="${proxy:-}"
 
 while getopts "h?p:" opt; do
@@ -38,6 +39,40 @@ else
     echo 'not setting proxy'
 fi
 
+if ! grep -q $mirror /etc/yum.repos.d/* ; then
+  # Kill everything and start clean
+  rm -rf /etc/yum.repos.d/*
+
+  cat > /etc/yum.repos.d/CentOS-Base.repo<<EOF
+[base]
+name=CentOS-\$releasever - Base
+baseurl=${mirror}/\$releasever/os/\$basearch/
+enabled=1
+gpgcheck=1
+EOF
+
+  cat > /etc/yum.repos.d/CentOS-Updates.repo<<EOF
+[updates]
+name=CentOS-\$releasever - Updates
+baseurl=${mirror}/\$releasever/updates/\$basearch/
+enabled=1
+gpgcheck=1
+EOF
+
+  cat > /etc/yum.repos.d/CentOS-Extras.repo<<EOF
+[extras]
+name=CentOS-\$releasever - Base
+baseurl=${mirror}/\$releasever/extras/\$basearch/
+enabled=1
+gpgcheck=1
+EOF
+
+fi
+
+if [ ! -f /root/.gemrc ]; then
+  echo 'gem: --bindir /usr/bin' > /root/.gemrc
+fi
+
 hash ruby 2>/dev/null || {
       puppet_version=0
 }
@@ -52,7 +87,7 @@ if [ "${ruby_version}" != "${desired_ruby}" ] ; then
   echo "baseurl=\"http://stacktira.aptira.com/repo/elruby/\"" >> /etc/yum.repos.d/elruby.repo
   echo 'enabled=1' >> /etc/yum.repos.d/elruby.repo
   echo 'gpgcheck=0' >> /etc/yum.repos.d/elruby.repo
- 
+
   yum remove -y ruby ruby-libs ruby-devel
   yum install -y ruby ruby-devel
 fi
@@ -105,3 +140,5 @@ if [ ! -d /etc/puppet/modules ]; then
     echo 'creating /etc/puppet/modules'
     mkdir /etc/puppet/modules
 fi
+
+rm -f /root/.gemrc
