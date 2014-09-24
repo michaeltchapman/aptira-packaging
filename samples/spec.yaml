@@ -1,0 +1,128 @@
+# end result of pre-build is that the project can be built and
+# cwd is in the root dir
+pre-build:
+  packages:
+    apt:
+    yum:
+    pip:
+    gem:
+  source:
+    git:
+    svn:
+    tar:
+  scripts:
+    inline:
+    path:
+
+# commands to build
+build:
+  make:
+    configure:
+    make:
+    install:
+  python:
+  gem:
+  scripts:
+    inline:
+    path:
+
+# Other? Needed?
+post-build:
+  scripts:
+    inline:
+    path:
+
+# Init script templating
+init:
+  - pleaserun:
+      platform:
+      version:
+      log:
+      name:
+      user:
+      group:
+      description:
+      umask:
+      chroot:
+      chdir:
+      nice:
+      other-args:
+      limit-coredump:
+      limit-cputime:
+      limit-data:
+      limit-file-size:
+      limit-locked-memory:
+      limit-open-files:
+      limit-user-processes:
+      limit-physical-memory:
+      limit-stack-size:
+      prestart:
+  - url:
+  - path:
+
+# Package building
+fpm:
+  inputs: #[package-name|files]
+  input-type: #[gem|rpm|python|dir]
+  output:
+  output-type:  #[deb|rpm|]
+  chdir:
+  prefix
+  name:
+  version:
+  iteration:
+  epoch:
+  license:
+  vendor:
+  category:
+  depends: #(no-depends, no-auto-depends)
+  provides:
+  conflicts:
+  replaces:
+  config-files: #(deb-config?)
+  directories:
+  architecture:
+  maintainer:
+  package-name-suffix: #(python-package-name-prefix, gem-package-name-prefix)
+  exclude:
+  description:
+  url:
+  inputs:
+  after-install:
+  before-install:
+  after-remove:
+  before-remove:
+  use-file-permissions: #(rpm-use-file-permissions, deb-use-file-permissions)
+  user: #(rpm-user, deb-user)
+  group: #(rpm-group, deb-group)
+  deb:
+    build-depends:
+    pre-depends:
+    compression: #(gz|bzip2|xz)
+    custom-control:
+      path:
+      url:
+      inline:
+    templates:
+    installed-size:
+    priority:
+    changelog:
+      path:
+      url:
+      inline:
+    recommends:
+    suggests:
+    meta-file:
+    interest:
+    activate:
+    fields:
+    shlibs:
+    init:
+    default:
+      path:
+      url:
+      inline:
+    upstart: # Do I need this?
+  rpm:
+ 
+
