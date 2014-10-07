@@ -1,9 +1,27 @@
 # end result of pre-build is that the project can be built and
 # cwd is in the root dir
+upstreams:
+  extract:
+    - dependencies
+    - init_scripts
+    - package_scripts
+    - paths:
+      - etc/package_name
+  rpm:
+    url:
+    extract:
+      - dependencies
+      - init_scripts
+      - package_scripts
+      - paths:
+        - etc/package_name
+        - var/lib/package_name
+  deb:
+
 pre-build:
   packages:
-    apt:
-    yum:
+    deb:
+    rpm:
     pip:
     gem:
   source:
@@ -124,5 +142,5 @@ fpm:
       inline:
     upstart: # Do I need this?
   rpm:
- 
+
 
